@@ -5,7 +5,8 @@ Ext.define('LuckyDraw.controller.Options', {
         
         refs: {
             txtNewOption: 'textfield[name=newOptionField]',
-            btnClear: 'button[action=clearOptionsList]'
+            btnClear: 'button[action=clearOptionsList]',
+            optionsList: 'dataview[baseCls=optionsList]'
         },
         control: {
             txtNewOption: {
@@ -13,6 +14,9 @@ Ext.define('LuckyDraw.controller.Options', {
             },
             btnClear: {
                 tap: 'onBtnClearTap'
+            },
+            optionsList: {
+                onItemDeleteRequest: 'onItemDeleteRequest'
             }
         }
     },
@@ -40,6 +44,13 @@ Ext.define('LuckyDraw.controller.Options', {
         };
     },
     
+    onItemDeleteRequest: function( record ) {
+        //console.log(record);
+        var store = Ext.getStore('Options');
+        store.remove(record);
+        store.sync();
+    },
+
     onBtnClearTap: function() {
         var store = Ext.getStore(this.storeName);
         store.removeAll();

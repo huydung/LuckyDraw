@@ -37,7 +37,18 @@ Ext.define('LuckyDraw.view.OptionsList', {
 		            baseCls: 'optionsList',
 		            itemCls: 'optionsListItem',
 		            useComponents: true,
-		            defaultType: 'OptionsListItem'
+		            defaultType: 'OptionsListItem',
+		            listeners: {
+		            	itemtap: function(dataview, index, target, record, evt){
+			            	//alert('Hey!');
+			            	var el = Ext.get(evt.target);
+			            	if( el.hasCls('delete') )
+			            	{
+			            		this.fireEvent('onItemDeleteRequest', record);
+			            		//console.log('event fired: onItemDeleteRequest');
+			            	}
+			            }
+		            }		            
 		        },
 		        {
 	        		xtype: 'container',

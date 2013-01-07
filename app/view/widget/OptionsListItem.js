@@ -24,15 +24,9 @@ Ext.define('LuckyDraw.view.widget.OptionsListItem', {
     	button.setIconCls('delete');
     	button.setIconMask(true);
     	button.setUi('decline-small');
-    	button.on('tap', this.onDelButtonTap, this);
     	return button;
     },
-    onDelButtonTap: function(button, event) {
-    	var record = this.getRecord();
-        var store = Ext.getStore('Options');
-        store.remove(record);
-        store.sync();
-    },
+
     updateDelButton: function(newButton, oldButton) {
     	if( newButton ) { 
     		this.add(newButton);
