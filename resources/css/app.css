@@ -5,6 +5,9 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input
 html{
 	font-size: 14px;
 }
+.optionsList{
+	border-top: solid 1px #666;
+}
 .optionsListItem {
 	padding: 0.5em 0 0.2em 0.5em;
 	border-bottom: solid 1px #666;
@@ -22,6 +25,20 @@ html{
 .item-list-actions-label {
 	font-weight: bold;
 	font-size: 0.8em;
+}
+.about_page {
+	text-align: center;
+	padding-top: 30%;
+	display: block;
+}
+img#company_logo {
+	width: 60%;	
+	text-align: center;
+}
+
+/* Overriding */
+.x-hasbadge .x-badge {
+	padding: 0;
 }
 /*
 .sub-button-save, .sub-button-load {

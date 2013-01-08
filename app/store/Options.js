@@ -5,10 +5,13 @@ Ext.define('LuckyDraw.store.Options', {
         model: 'LuckyDraw.model.Option',
         storeId: 'Options',
         pageSize: 20,
-        autoLoad: true,
+        //autoLoad: true,
         sorters: [
             {property: 'timestamp', direction: 'DESC'}
-        ]
+        ],
+
+        //Custom config
+        selected: 0
     }
     
 });

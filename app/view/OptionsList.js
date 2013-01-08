@@ -26,7 +26,8 @@ Ext.define('LuckyDraw.view.OptionsList', {
 					xtype: 'textfield',
 					name: 'newOptionField',
 					placeHolder: 'Type & enter to add new option',
-					width: '100%'
+					width: '100%',
+					margin: '0 0 10px 0'
         		},
         		{
 		            xtype: 'dataview',
@@ -47,6 +48,9 @@ Ext.define('LuckyDraw.view.OptionsList', {
 			            		this.fireEvent('onItemDeleteRequest', record);
 			            		//console.log('event fired: onItemDeleteRequest');
 			            	}
+			            },
+			            updatedata: function(){
+			            	console.log('data updated!');
 			            }
 		            }		            
 		        },
@@ -76,7 +80,7 @@ Ext.define('LuckyDraw.view.OptionsList', {
 						},	        		
 						{
 							xtype: 'button',
-							text: 'Save',
+							text: 'Save As',
 							margin: 2,
 							labelCls: 'sub-button-label',
 							cls: 'sub-button-save',

@@ -4,7 +4,9 @@ Ext.define('LuckyDraw.view.Main', {
     requires: [
         'Ext.TitleBar',
         'Ext.Label',
-        'LuckyDraw.view.OptionsList'
+        'LuckyDraw.view.OptionsList',
+        'Ext.data.Store',
+        'LuckyDraw.store.Options'
     ],
     config: {
 
@@ -45,9 +47,12 @@ Ext.define('LuckyDraw.view.Main', {
                         xtype: 'label',
                         centered: true,
                         html: [
-                            '<p>This application is a product of ',
-                                '<a href="http://84way.com">84way</a>',
-                            'team</p>'
+                            '<p class="about_page">',
+                                '<em>Designed & Developed by</em><br/><br/>  ',
+                                '<a href="http://84way.com"><img id="company_logo" src="resources/logo_84way.png" /></a>',
+                                '<br/><br/><br/>',
+                                'For support, please contact <a href="mailto:support@84way.com">support@84way.com</a>',
+                            '</p>'
                         ].join(" ")
                     }
                 ]
