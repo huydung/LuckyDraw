@@ -8,7 +8,11 @@ Ext.define('LuckyDraw.controller.Options', {
             txtNewOption: 'textfield[name=newOptionField]',
             btnClear: 'button[action=clearOptionsList]',
             optionsList: 'dataview[baseCls=optionsList]',
-            tabDrawButton: 'tabbar button[iconCls=team]'
+            tabDrawButton: 'tabbar button[iconCls=team]',
+            lblStatNumberTotal: 'DrawPage container[cls=stat-total] label[cls=stat-number]',
+            lblStatNumberSelected: 'DrawPage container[cls=stat-selected] label[cls=stat-number]',
+            tabPanel: 'tabpanel',
+            btnDrawWinner: 'button[action=drawNewWinner]'
         },
         control: {
             txtNewOption: {
@@ -24,6 +28,21 @@ Ext.define('LuckyDraw.controller.Options', {
             },
             tabDrawButton: {
                 show: function(){ console.log('Button shown!'); }
+            },
+            tabPanel: {
+                activeitemchange: function(container, newValue, oldValue) {
+                    console.log(newValue);
+                    console.log(newValue.getCls()[0]);
+                    if( newValue.getCls()[0] == 'tabDraw' ) {
+                        this.getTabDrawButton().setBadgeText('');
+                    } else {
+                        this.updateViewsAboutStoreItems();
+                    }
+                },
+                scope: this
+            },
+            btnDrawWinner: {
+                tap: 'drawNewWinner'
             }
         }
     },
@@ -75,24 +94,66 @@ Ext.define('LuckyDraw.controller.Options', {
         );        
     },
 
+    formatNumber: function(number){
+        return (number < 10 ? '0' : '') + number;
+    },
+
+    drawNewWinner: function(){
+        var store = Ext.getStore(this.storeName);
+        //Filter only the unselected options
+        var unselectedOptions = store.queryBy(function(record){
+            return record.get('selected') == false;
+        });
+        var unselectedCount = unselectedOptions.length;
+        console.log(unselectedOptions);
+        if( unselectedCount == 0 ) {
+            Ext.Msg.alert('Ooops', 'All options has been selected! Please consider add more options :)');
+        } else {
+            var selectedIndex = Math.floor(Math.random() * unselectedCount);
+            console.log('Selected Index: ' + selectedIndex);
+
+            var id = unselectedOptions.getAt(selectedIndex).getId();
+            console.log('Selected ID: ' + id);
+
+            var record = store.getById(id);
+            if( typeof record != 'undefined' ) {
+                record.set('selected', true);
+                record.save();
+            };
+
+            store.sync();
+            this.getOptionsList().refresh();
+        }      
+        return false;
+    },
+
     /***************
     *** UTILITIES METHODS
     ***************/
-    updateDrawTabBadgeText: function() {
+    updateViewsAboutStoreItems: function() {
         var store = Ext.getStore(this.storeName);
-        console.log('updateDrawTabBadgeText called!');
+        console.log('updateViewsAboutStoreItems called!');
         if( typeof store != 'undefined' ) {
             var str = '';
-            if( store.getAllCount() != 0 ) {
-                str += store.getSelected() + '/' + store.getAllCount();
+            if( this.getTabPanel().getActiveItem().getCls()[0] != 'tabDraw' ) {
+                if( store.getAllCount() != 0 ) {
+                    str += store.getSelected() + '/' + store.getAllCount();
+                }
             }
+            
+            this.getLblStatNumberTotal().setHtml( this.formatNumber(store.getAllCount()) );
+            this.getLblStatNumberSelected().setHtml( this.formatNumber(store.getSelected()) );
+        
             
             var tabDrawButton = this.getTabDrawButton();
             //console.log(tabDrawButton);
             if( typeof tabDrawButton != 'undefined' ) {
                 tabDrawButton.setBadgeText(str);
                 //tabDrawButton.setBadgeCls('hdbadge');
-            }   
+            } else {
+                console.log('WTF? Can not access tabDrawButton???');
+            }
+                
         }    
     },
 
@@ -102,12 +163,14 @@ Ext.define('LuckyDraw.controller.Options', {
         var store = Ext.getStore(this.storeName);
         store.load();
         store.on({
-            addrecords: this.updateDrawTabBadgeText,
-            removerecords: this.updateDrawTabBadgeText,
-            refresh: this.updateDrawTabBadgeText,
+            addrecords: this.updateViewsAboutStoreItems,
+            removerecords: this.updateViewsAboutStoreItems,
+            updaterecord: this.updateViewsAboutStoreItems,
+            clear: this.updateViewsAboutStoreItems,
+            refresh: function(){ console.log('Need refresh DataView!!!'); },
             scope: this
         });
-        this.updateDrawTabBadgeText();
+        this.updateViewsAboutStoreItems();
         
 
     },

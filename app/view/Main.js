@@ -5,6 +5,8 @@ Ext.define('LuckyDraw.view.Main', {
         'Ext.TitleBar',
         'Ext.Label',
         'LuckyDraw.view.OptionsList',
+        'LuckyDraw.view.DrawPage',
+        'LuckyDraw.view.AboutPage',
         'Ext.data.Store',
         'LuckyDraw.store.Options'
     ],
@@ -17,45 +19,18 @@ Ext.define('LuckyDraw.view.Main', {
             }
         },
 
-        items: [
+        items: [            
             {
-                xtype: 'OptionsList'
+                xtype: 'OptionsList',
+                cls: 'tabOptions'
             },
             {
-                title: 'Draw!',
-                iconCls: 'team',
-                scrollable: true,
-                items: [
-                    {
-                        docked: 'top',
-                        xtype: 'titlebar',
-                        title: 'Draw the Lucky Winner!'
-                    }  
-                ]              
+                xtype: 'DrawPage',
+                cls: 'tabDraw'             
             },
             {
-                title: 'Info',
-                iconCls: 'info',
-                scrollable: true,
-                items: [
-                    {
-                        docked: 'top',
-                        xtype: 'titlebar',
-                        title: 'About'
-                    },
-                    {
-                        xtype: 'label',
-                        centered: true,
-                        html: [
-                            '<p class="about_page">',
-                                '<em>Designed & Developed by</em><br/><br/>  ',
-                                '<a href="http://84way.com"><img id="company_logo" src="resources/logo_84way.png" /></a>',
-                                '<br/><br/><br/>',
-                                'For support, please contact <a href="mailto:support@84way.com">support@84way.com</a>',
-                            '</p>'
-                        ].join(" ")
-                    }
-                ]
+                xtype: 'AboutPage',
+                cls: 'tabAbout'
             }
         ]
     }

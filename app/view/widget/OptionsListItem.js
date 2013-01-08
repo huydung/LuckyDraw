@@ -4,13 +4,8 @@ Ext.define('LuckyDraw.view.widget.OptionsListItem', {
     xtype: 'OptionsListItem',
 
     config: {
-    	dataMap: {
-    		getName: {
-    			setHtml: 'name'
-    		}
-    	},
     	delButton: true,
-    	name: {
+    	nameLabel: {
     		cls: 'x-name',
     		flex: 3
     	},
@@ -21,9 +16,7 @@ Ext.define('LuckyDraw.view.widget.OptionsListItem', {
     },
     applyDelButton: function(config) {
     	var button = Ext.factory(config, Ext.Button, this.getDelButton());
-    	button.setIconCls('delete');
-    	button.setIconMask(true);
-    	button.setUi('decline-small');
+        button.setIconMask(true);
     	return button;
     },
 
@@ -35,16 +28,34 @@ Ext.define('LuckyDraw.view.widget.OptionsListItem', {
     		this.remove(oldButton);
     	}
     },
-    applyName: function(config) {
-    	var label = Ext.factory(config, Ext.Label, this.getName());
-    	return label;
+    applyNameLabel: function(config) {    	
+        return Ext.factory(config, Ext.Label, '');
     },
-    updateName: function(newLabel, oldLabel) {
+    updateNameLabel: function(newLabel, oldLabel) {
+        var record = this.getRecord();
+        console.log('updateName for DataListItem called, record.selected = '+record.get('selected')+'!');
     	if( newLabel ) { 
     		this.add(newLabel);
     	};
     	if( oldLabel ) {
     		this.remove(oldLabel);
     	}
+    },
+    updateRecord: function(record, oldRecord) {
+        console.log('updateRecord called');
+        if( record.get('selected') ){
+            this.getDelButton()
+                .setIconCls('favorites')
+                .setUi('action-small');
+            this.getNameLabel()
+                .setHtml('<span class="option-selected">'+record.get('name')+'</span>');
+        } else {
+            this.getDelButton()
+                .setIconCls('delete')
+                .setUi('decline-small');
+            this.getNameLabel()
+                .setHtml(record.get('name'));
+        }
+        this.callParent(record);
     }
 });

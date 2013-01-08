@@ -12,6 +12,10 @@ html{
 	padding: 0.5em 0 0.2em 0.5em;
 	border-bottom: solid 1px #666;
 }
+.optionsListItem .option-selected {
+	color: #666;
+	text-decoration: line-through;
+}
 .optionsListItem .x-name {
 	padding: 0 0 0 0.5em;
 	font-weight: bold;
@@ -28,17 +32,28 @@ html{
 }
 .about_page {
 	text-align: center;
-	padding-top: 30%;
 	display: block;
 }
 img#company_logo {
 	width: 60%;	
 	text-align: center;
 }
-
+.stat-number{
+	font-size: 5em;	
+}
+.stat-label{
+	font-size: 1.5em;
+	margin-top: -0.5em;	
+}
+.stat-total {
+	border-left: solid 1px #666;
+}
 /* Overriding */
 .x-hasbadge .x-badge {
 	padding: 0;
+}
+.draw-button{
+	font-size: 1.8em !important;
 }
 /*
 .sub-button-save, .sub-button-load {
